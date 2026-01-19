@@ -1,6 +1,6 @@
 {
   "name": "browser-async-db",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "description": "A lightweight TypeScript library that simplifies IndexedDB with async/await syntax and Promise-based API for modern browser storage",
   "homepage": "https://github.com/Maliklar/async-db#readme",
   "bugs": {
@@ -30,6 +30,13 @@
     "key-value",
     "nosql"
   ],
+   "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "license": "MIT",
   "author": "Malik Elbadri <elbadrimalik@gmail.com>",
   "type": "module",
