@@ -3,7 +3,7 @@ import DBStore from "./DBStore";
 import IDbError from "./DBError";
 import type { IDbAsync } from "./types";
 
-export default class AsyncDB {
+export default class BAsyncDB {
   public static openReq: IDbAsync;
   public static db: IDBDatabase;
   public static dbName: string;
