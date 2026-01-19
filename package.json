@@ -1,7 +1,7 @@
 {
-  "name": "async-db",
+  "name": "browser-async-db",
   "version": "1.0.0",
-  "description": "IndexedDB wrapper",
+  "description": "A lightweight TypeScript library that simplifies IndexedDB with async/await syntax and Promise-based API for modern browser storage",
   "homepage": "https://github.com/Maliklar/async-db#readme",
   "bugs": {
     "url": "https://github.com/Maliklar/async-db/issues"
@@ -10,8 +10,28 @@
     "type": "git",
     "url": "git+https://github.com/Maliklar/async-db.git"
   },
+  "keywords": [
+    "indexeddb",
+    "indexed-db",
+    "browser-storage",
+    "async",
+    "promise",
+    "database",
+    "browser-database",
+    "client-side-storage",
+    "offline-storage",
+    "web-storage",
+    "typescript",
+    "idb",
+    "local-database",
+    "browser",
+    "storage",
+    "async-await",
+    "key-value",
+    "nosql"
+  ],
   "license": "MIT",
-  "author": "Malik Elbadri",
+  "author": "Malik Elbadri <elbadrimalik@gmail.com>",
   "type": "module",
   "types": "dist/types.d.ts",
   "files": [
