@@ -111,14 +111,13 @@ export default class DBStore<T> {
     });
   }
 
-  update(value: T, key: IDBValidKey): Promise<T> {
+  update<K = T>(value: K, key?: IDBValidKey): Promise<T> {
     return new Promise((res, rej) => {
       const transaction = this.db.transaction(this.name, "readwrite");
       const s = transaction.objectStore(this.name);
       const result = s.put(value, key);
       (result.onerror as AsyncDBCallback) = (e: IEvent) => {
         const message = e.target.error?.message;
-
         transaction.commit();
         rej(new IDbError(message, e));
       };
