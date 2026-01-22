@@ -3,10 +3,9 @@ import IDbError from "./DBError";
 import type { AsyncDBCallback, IEvent } from "./types";
 
 export default class DBStore<T> {
-  name: string;
-  options?: IDBObjectStoreParameters | undefined;
-  schema!: T;
-  indexes: DBSToreIndex[];
+  public name: string;
+  private options?: IDBObjectStoreParameters | undefined;
+  private indexes: DBSToreIndex[];
   private db!: IDBDatabase;
   constructor(name: string, options?: IDBObjectStoreParameters) {
     this.name = name;
@@ -54,7 +53,7 @@ export default class DBStore<T> {
   getAll(
     query?: IDBValidKey | IDBKeyRange | null | undefined,
     count?: number,
-  ): Promise<T> {
+  ): Promise<T[]> {
     return new Promise((res, rej) => {
       const transaction = this.db.transaction(this.name, "readwrite");
       const s = transaction.objectStore(this.name);
@@ -67,7 +66,7 @@ export default class DBStore<T> {
       };
       (result.onsuccess as AsyncDBCallback) = (e: IEvent) => {
         transaction.commit();
-        res(e.target.result as T);
+        res(e.target.result as unknown as T[]);
       };
     });
   }
@@ -93,7 +92,7 @@ export default class DBStore<T> {
   getAllKeys(
     query?: IDBValidKey | IDBKeyRange | null | undefined,
     count?: number,
-  ): Promise<T> {
+  ): Promise<T[]> {
     return new Promise((res, rej) => {
       const transaction = this.db.transaction(this.name, "readwrite");
       const s = transaction.objectStore(this.name);
@@ -106,7 +105,7 @@ export default class DBStore<T> {
       };
       (result.onsuccess as AsyncDBCallback) = (e: IEvent) => {
         transaction.commit();
-        res(e.target.result as T);
+        res(e.target.result as unknown as T[]);
       };
     });
   }
@@ -135,5 +134,11 @@ export default class DBStore<T> {
   ) {
     const index = new DBSToreIndex(name, keyPath, options);
     this.indexes.push(index);
+  }
+  getIndexes() {
+    return this.indexes;
+  }
+  getOptions() {
+    return this.options;
   }
 }

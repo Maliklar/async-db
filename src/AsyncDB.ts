@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import DBStore from "./DBStore";
 import IDbError from "./DBError";
 import type { IDbAsync } from "./types";
 
 export default class AsyncDB {
-  public static openReq: IDbAsync;
-  public static db: IDBDatabase;
-  public static dbName: string;
-  public static version?: number;
-  public static stores: DBStore<any>[];
-  public static storeNames: string[];
+  private static openReq: IDbAsync;
+  private static db: IDBDatabase;
+  private static dbName: string;
+  private static version?: number;
+  private static stores: DBStore<any>[];
 
   public static open(dbName: string, version?: number) {
     this.dbName = dbName;
@@ -46,8 +44,8 @@ export default class AsyncDB {
       this.openReq.onupgradeneeded = (e) => {
         this.db = e.target.result;
         for (const store of this.stores) {
-          const s = this.db.createObjectStore(store.name, store.options);
-          const indexes = store.indexes;
+          const s = this.db.createObjectStore(store.name, store.getOptions());
+          const indexes = store.getIndexes();
           for (const index of indexes) {
             const name = index.name;
             const keyPath = index.keyPath;
