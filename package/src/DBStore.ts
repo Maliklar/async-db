@@ -6,7 +6,7 @@ export default class DBStore<T> {
   public name: string;
   private options?: IDBObjectStoreParameters | undefined;
   private indexes: DBSToreIndex[];
-  private db!: IDBDatabase;
+  public db!: IDBDatabase;
   constructor(name: string, options?: IDBObjectStoreParameters) {
     this.name = name;
     this.options = options;
@@ -123,6 +123,24 @@ export default class DBStore<T> {
       (result.onsuccess as AsyncDBCallback) = (e: IEvent) => {
         transaction.commit();
         res(e.target.result as T);
+      };
+    });
+  }
+
+  delete(query: IDBValidKey | IDBKeyRange) {
+    return new Promise((res, rej) => {
+      const transaction = this.db.transaction(this.name, "readwrite");
+      const s = transaction.objectStore(this.name);
+      const result = s.delete(query);
+      (result.onerror as AsyncDBCallback) = (e: IEvent) => {
+        const message = e.target.error?.message;
+
+        transaction.commit();
+        rej(new IDbError(message, e));
+      };
+      (result.onsuccess as AsyncDBCallback) = (e: IEvent) => {
+        transaction.commit();
+        res(e.target.result as unknown as T[]);
       };
     });
   }

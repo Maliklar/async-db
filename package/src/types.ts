@@ -1,3 +1,5 @@
+import DBStore from "./DBStore";
+
 export type IEvent = Event & {
   target: IDBOpenDBRequest;
 };
@@ -39,7 +41,19 @@ export interface IDbAsync {
     options?: unknown,
   ): void;
 
-  result: IDBDatabase;
+  result: AsyncDBDatabase;
   source: IDBObjectStore | IDBIndex | IDBCursor;
   transaction: IDBTransaction | null;
 }
+
+export type AsyncDBDatabase = IDBDatabase & {
+  getStore<T>(name: string): DBStore<T>;
+};
+export type StoreMap = Record<string, DBStore<any>>;
+
+export type AsyncDBInstance = {
+  openReq: IDbAsync;
+  db: AsyncDBDatabase;
+  dbName: string;
+  version?: number;
+};
